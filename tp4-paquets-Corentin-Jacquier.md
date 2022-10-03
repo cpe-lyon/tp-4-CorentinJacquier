@@ -108,9 +108,6 @@ Ensuite, on va dans le dossier `cd cbonsai`. Puis, avec `mdless`, on affiche le 
 
 On suit les instructions et on installe les paquets manquants. 
 
-<img
-src="https://user-content.gitlab-static.net/516ebf93882a9132c52dfbd25843c529d6f7ce95/68747470733a2f2f692e696d6775722e636f6d2f726e714a7833502e676966">
-
 ## Exercice 8 - Création de dépôt personnalisé
 
 ### Création d’un paquet Debian avec dpkg-deb
@@ -123,10 +120,10 @@ scripts
 │   └───DEBIAN
 │   │   control
 │
-│   └───usr
-│  	 	 └───local
-│  	 	    └───bin
-│   		│ 	origine-commande
+│	└───usr
+│		└───local
+│			└───bin
+│			│	origine-commande
 │
 ```
 On build le paquet avec `dpkg-deb --build origine-commande`.
@@ -136,7 +133,7 @@ src="https://cdn.discordapp.com/attachments/1017478318934724638/1021716452702695
 
 ### Création du dépôt personnel avec reprepro
 
-On fait l’arborescence demandée : 
+On fait l’arborescence demandée avec `mkdir` puis `nano distributions` : 
 ```
 repo-cpe
 └───conf
@@ -146,6 +143,12 @@ repo-cpe
 │   
 ```
 
+On construit le paquet avec la commande `reprepro -b . includedeb origine-commande.deb`.
 
 ### Signature du dépôt avec GPG
 
+On générère la clé avec `gpg --gen-key` et dans le fichier de config on ajoute `SignWith: yes`.
+
+On ajoute la clé précédeament créeer dans le déport : `reprepro --ask-passphrase -b . export`.
+
+Et pour finir, on met la clé dans celles connues par APT dans un fichier 'public.key' avec `sudo apt-key add public.key`. 
